@@ -32,9 +32,6 @@ public final class ShadowAssetManager {
     private AndroidManifest appManifest;
     private ResourceLoader resourceLoader;
 
-    public final void __constructor__() {
-    }
-
     @HiddenApi @Implementation
     public CharSequence getResourceText(int ident) {
         ResName resName = resourceLoader.getResourceIndex().getResName(ident);

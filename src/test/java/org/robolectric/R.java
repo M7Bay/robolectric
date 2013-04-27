@@ -144,6 +144,7 @@ public final class R {
         public static final int android_namespaced_transparent = 0x10408;
         public static final int android_red = 0x10409;
         public static final int test_color_1 = 0x1040a;
+        public static final int color_state_list = 0x1040b;
     }
 
     public static final class drawable {

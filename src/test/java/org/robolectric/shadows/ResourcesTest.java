@@ -216,7 +216,7 @@ public class ResourcesTest {
      */
     @Test
     public void testGetColorStateList() {
-        assertThat(resources.getColorStateList(R.color.test_color_1)).isInstanceOf(ColorStateList.class);
+        assertThat(resources.getColorStateList(R.color.color_state_list)).isInstanceOf(ColorStateList.class);
     }
 
     /**

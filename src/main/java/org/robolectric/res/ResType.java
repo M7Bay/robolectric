@@ -7,6 +7,7 @@ public enum ResType {
     BOOLEAN,
     COLOR,
     CHAR_SEQUENCE,
+    COLOR_STATE_LIST,
     DIMEN,
     INTEGER,
 

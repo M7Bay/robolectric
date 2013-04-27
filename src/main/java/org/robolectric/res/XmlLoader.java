@@ -23,7 +23,7 @@ public abstract class XmlLoader {
 
     private DocumentBuilder documentBuilder;
 
-    synchronized protected Document parse(FsFile xmlFile) {
+    synchronized public Document parse(FsFile xmlFile) {
         InputStream inputStream = null;
         try {
             if (documentBuilder == null) {
@@ -68,6 +68,10 @@ public abstract class XmlLoader {
             Matcher matcher = DIR_QUALIFIER_PATTERN.matcher(parentDir);
             if (!matcher.find()) throw new IllegalStateException(parentDir);
             return matcher.group(1);
+        }
+
+        public FsFile getXmlFile() {
+            return xmlFile;
         }
     }
 }

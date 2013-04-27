@@ -12,6 +12,8 @@ public class Converter {
                 return new FromCharSequence();
             case COLOR:
                 return new FromColor();
+            case COLOR_STATE_LIST:
+                return new FromColorStateList();
             case DIMEN:
                 return new FromDimen();
             case INTEGER:
@@ -46,14 +48,6 @@ public class Converter {
         return new UnsupportedOperationException(getClass().getName() + " doesn't support " + operation);
     }
 
-    public static class FromColor extends Converter {
-
-        @Override public void fillTypedValue(TypedResource typedResource, TypedValue typedValue) {
-            typedValue.type = TypedValue.TYPE_INT_COLOR_ARGB8;
-            typedValue.data = Color.parseColor(typedResource.asString());
-        }
-    }
-
     public static class FromCharSequence extends Converter {
         @Override public CharSequence asCharSequence(TypedResource typedResource) {
             return typedResource.asString();
@@ -62,6 +56,20 @@ public class Converter {
         @Override public int asInt(TypedResource typedResource) {
             String rawValue = typedResource.asString();
             return convertInt(rawValue);
+        }
+    }
+
+    public static class FromColor extends Converter {
+        @Override public void fillTypedValue(TypedResource typedResource, TypedValue typedValue) {
+            typedValue.type = TypedValue.TYPE_INT_COLOR_ARGB8;
+            typedValue.data = Color.parseColor(typedResource.asString());
+        }
+    }
+
+    private static class FromColorStateList extends Converter {
+        @Override public void fillTypedValue(TypedResource typedResource, TypedValue typedValue) {
+            typedValue.type = TypedValue.TYPE_STRING;
+            typedValue.string = typedResource.asString();
         }
     }
 
@@ -90,7 +98,6 @@ public class Converter {
         }
 
     }
-
     private static class FromDimen extends Converter {
         @Override public void fillTypedValue(TypedResource typedResource, TypedValue typedValue) {
             ResourceHelper.parseFloatAttribute(null, typedResource.asString(), typedValue, false);

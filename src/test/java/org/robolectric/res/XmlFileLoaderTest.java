@@ -57,7 +57,7 @@ public class XmlFileLoaderTest {
         xmlFileBuilder = new XmlFileBuilder();
 
         Document document = resBundle.get(new ResName(TEST_PACKAGE, "xml", "preferences"), "");
-        parser = (XmlResourceParserImpl) xmlFileBuilder.getXml(document);
+        parser = (XmlResourceParserImpl) xmlFileBuilder.getXml(document, null, "packageName");
     }
 
     @After
@@ -73,7 +73,6 @@ public class XmlFileLoaderTest {
                         event + ". End of document reached.");
             }
         }
-        ;
     }
 
     /**
@@ -94,7 +93,7 @@ public class XmlFileLoaderTest {
             Document document = documentBuilder.parse(
                     new ByteArrayInputStream(xmlValue.getBytes()));
 
-            parser = xmlFileBuilder.new XmlResourceParserImpl(document);
+            parser = new XmlResourceParserImpl(document, null, null);
             // Navigate to the root element
             parseUntilNext(XmlResourceParser.START_TAG);
         } catch (Exception parsingException) {

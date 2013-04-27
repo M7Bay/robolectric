@@ -17,6 +17,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import static org.fest.reflect.core.Reflection.constructor;
 import static org.robolectric.Robolectric.shadowOf;
 
 @SuppressWarnings({"UnusedDeclaration"})
@@ -29,7 +30,11 @@ public class ShadowTypedArray implements UsesResources {
     private ResourceIndex resourceIndex;
 
     public static TypedArray create(Resources resources, AttributeSet set, int[] attrs) {
-        TypedArray result = ShadowResources.inject(resources, Robolectric.newInstanceOf(TypedArray.class));
+        constructor().withParameterTypes(Resources.class, int[].class, int[].class, int.class)
+                .in(TypedArray.class)
+                .newInstance(resources)
+        TypedArray typedArray = Robolectric.newInstanceOf(TypedArray.class);
+        TypedArray result = ShadowResources.inject(resources, typedArray);
         Robolectric.shadowOf(result).populate(set, attrs);
         return result;
     }
@@ -64,13 +69,13 @@ public class ShadowTypedArray implements UsesResources {
         return str == null ? "" : str;
     }
 
-    @Implementation
-    public String getString(int index) {
-        ResName resName = getResName(index);
-        if (resName == null) return null;
-        String str = values.getAttributeValue(resName.namespace, resName.name);
-        return str == null ? "" : str;
-    }
+//    @Implementation
+//    public String getString(int index) {
+//        ResName resName = getResName(index);
+//        if (resName == null) return null;
+//        String str = values.getAttributeValue(resName.namespace, resName.name);
+//        return str == null ? "" : str;
+//    }
 
     @Implementation
     public boolean getBoolean(int index, boolean defValue) {

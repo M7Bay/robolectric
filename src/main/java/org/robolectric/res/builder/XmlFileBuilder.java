@@ -1,5 +1,6 @@
 package org.robolectric.res.builder;
 
+import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
@@ -45,8 +46,8 @@ public class XmlFileBuilder {
     }
 
 
-    public XmlResourceParser getXml(Document document) {
-        return new XmlResourceParserImpl(document);
+    public XmlResourceParser getXml(Document document, Resources resources, String packageName) {
+        return new XmlResourceParserImpl(document, resources, packageName);
     }
 
     /**
@@ -63,19 +64,23 @@ public class XmlFileBuilder {
      *
      * @see https://github.com/android/platform_frameworks_base/blob/master/core/java/android/content/res/XmlBlock.java
      */
-    public final class XmlResourceParserImpl
+    public static class XmlResourceParserImpl
             implements XmlResourceParser {
 
         private final Document document;
+        private final Resources resources;
         private Node currentNode;
 
         private boolean mStarted = false;
         private boolean mDecNextDepth = false;
         private int mDepth = 0;
         private int mEventType = START_DOCUMENT;
+        private String packageName;
 
-        public XmlResourceParserImpl(Document document) {
+        public XmlResourceParserImpl(Document document, Resources resources, String packageName) {
             this.document = document;
+            this.resources = resources;
+            this.packageName = packageName;
         }
 
         public void setFeature(String name, boolean state)
@@ -542,7 +547,7 @@ public class XmlFileBuilder {
         }
 
         public int getAttributeNameResource(int index) {
-            throw new RuntimeException("Not implemented yet");
+            return resources.getIdentifier(getAttributeName(index), "attr", packageName);
         }
 
         public int getAttributeListValue(String namespace, String attribute,
@@ -633,7 +638,11 @@ public class XmlFileBuilder {
         }
 
         public int getAttributeResourceValue(int idx, int defaultValue) {
-            throw new RuntimeException("Not implemented yet");
+            String attributeValue = getAttributeValue(idx);
+            if (attributeValue != null && attributeValue.startsWith("@")) {
+                return resources.getIdentifier(attributeValue.substring(1), null, packageName);
+            }
+            return defaultValue;
         }
 
         public int getAttributeIntValue(int idx, int defaultValue) {
