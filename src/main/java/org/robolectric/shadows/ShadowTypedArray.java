@@ -30,10 +30,9 @@ public class ShadowTypedArray implements UsesResources {
     private ResourceIndex resourceIndex;
 
     public static TypedArray create(Resources resources, AttributeSet set, int[] attrs) {
-        constructor().withParameterTypes(Resources.class, int[].class, int[].class, int.class)
+        TypedArray typedArray = constructor().withParameterTypes(Resources.class, int[].class, int[].class, int.class)
                 .in(TypedArray.class)
-                .newInstance(resources)
-        TypedArray typedArray = Robolectric.newInstanceOf(TypedArray.class);
+                .newInstance(resources);
         TypedArray result = ShadowResources.inject(resources, typedArray);
         Robolectric.shadowOf(result).populate(set, attrs);
         return result;

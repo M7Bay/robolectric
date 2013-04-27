@@ -184,8 +184,9 @@ abstract class XResourceLoader implements ResourceLoader {
             String value = null;
             while (currentStyle != null && (value = currentStyle.getAttrValue(name)) == null) {
                 String parent = currentStyle.getParent();
-                currentStyle = parent == null ? null : styleData.get(new ResName(parent);
+//                currentStyle = parent == null ? null : styleData.get(new ResName(parent));
             }
+            throw new UnsupportedOperationException("todo!");
         }
     }
 }

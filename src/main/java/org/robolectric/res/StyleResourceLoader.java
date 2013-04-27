@@ -3,15 +3,15 @@ package org.robolectric.res;
 import javax.xml.xpath.XPathExpressionException;
 
 public class StyleResourceLoader extends XpathResourceXmlLoader {
-    private final ResBundle<Style> styleData;
+    private final ResBundle<StyleData> styleData;
 
-    public StyleResourceLoader(ResBundle<Style> styleData) {
-        super("/resources/style", "style");
+    public StyleResourceLoader(ResBundle<StyleData> styleData) {
+        super("/resources/style");
         this.styleData = styleData;
     }
 
     @Override
-    protected void processNode(String name, XmlNode xmlNode, XmlContext xmlContext, String attrType) throws XPathExpressionException {
+    protected void processNode(String name, XmlNode xmlNode, XmlContext xmlContext) throws XPathExpressionException {
         String styleName = xmlNode.getAttrValue("name").replace('.', '_');
         String styleParent = xmlNode.getAttrValue("parent").replace('.', '_');
 
